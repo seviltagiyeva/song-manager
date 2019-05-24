@@ -4,6 +4,7 @@ import React from 'react';
 import fetch from 'isomorphic-fetch';
 import MaterialTable from 'material-table';
 import PropTypes from 'prop-types';
+import baseUrl from '../../constants';
 import './App.sass';
 
 class App extends React.Component {
@@ -14,7 +15,7 @@ class App extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     const { id } = match.params;
-    const url = id ? `http://192.168.64.2/songs-api/api/songs/${id}` : 'http://192.168.64.2/songs-api/api/songs';
+    const url = id ? `${baseUrl}${id}` : `${baseUrl}api/songs`;
     fetch(url)
       .then(response => response.json())
       .then((result) => {
@@ -24,7 +25,7 @@ class App extends React.Component {
   }
 
   onRowAdd = newData => (
-    fetch('http://192.168.64.2/songs-api/api/songs', {
+    fetch(`${baseUrl}api/songs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ class App extends React.Component {
   onRowDelete = (oldData) => {
     const { songs } = this.state;
     const newSongs = songs.filter(song => +song.id !== +oldData.id);
-    return fetch(`http://192.168.64.2/songs-api/api/songs/${oldData.id}/`, {
+    return fetch(`${baseUrl}api/songs/${oldData.id}/`, {
       method: 'Delete',
     })
       .then(() => {
@@ -50,7 +51,7 @@ class App extends React.Component {
 
   onRowUpdate = (newData, oldData) => {
     const { songs } = this.state;
-    return fetch(`http://192.168.64.2/songs-api/api/songs/${oldData.id}/`, {
+    return fetch(`${baseUrl}api/songs/${oldData.id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
