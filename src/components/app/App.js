@@ -15,7 +15,7 @@ class App extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     const { id } = match.params;
-    const url = id ? `${baseUrl}${id}` : `${baseUrl}api/songs`;
+    const url = id ? `${baseUrl}api/songs/${id}` : `${baseUrl}api/songs`;
     fetch(url)
       .then(response => response.json())
       .then((result) => {
